@@ -7,8 +7,8 @@ import java.util.TreeMap;
 
 import edu.handong.analysis.datamodel.Course;
 import edu.handong.analysis.datamodel.Student;
-import edu.handong.analysise.utils.NotEnoughArgumentException;
-import edu.handong.analysise.utils.Utils;
+import edu.handong.analysis.utils.NotEnoughArgumentException;
+import edu.handong.analysis.utils.Utils;
 
 public class HGUCoursePatternAnalyzer {
 
@@ -54,9 +54,29 @@ public class HGUCoursePatternAnalyzer {
 	 */
 	private HashMap<String,Student> loadStudentCourseRecords(ArrayList<String> lines) {
 		
-		// TODO: Implement this method
+		students= new HashMap<String, Student>();
+		Student student= new Student(lines.get(0));
 		
-		return null; // do not forget to return a proper variable.
+		for(String data: lines) {
+			Course course = new Course(data);
+			String SstudentId = student.getStudentId();
+			String CstudentId= course.getStudentId();
+			
+			if(SstudentId.equals(CstudentId)) {
+				
+				student.addCourse(course);
+				student.getSemestersByYearAndSemester();
+				students.put(SstudentId, student);
+			}else {
+				
+				student= new Student(CstudentId);
+				student.addCourse(course);
+				
+				
+			}
+		}
+		
+		return students; // do not forget to return a proper variable.
 	}
 
 	/**
@@ -74,8 +94,28 @@ public class HGUCoursePatternAnalyzer {
 	 */
 	private ArrayList<String> countNumberOfCoursesTakenInEachSemester(Map<String, Student> sortedStudents) {
 		
-		// TODO: Implement this method
+		ArrayList<String> output= new ArrayList<String>();
+		String L, R;
 		
-		return null; // do not forget to return a proper variable.
+		output.add("StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInSemester");
+		
+		for(Student list: sortedStudents.values()) {
+			
+			L= list.getStudentId();
+			L += ", "+ Integer.toString(list.getSemestersByYearAndSemester().size());
+			
+			for(int i= 1; i<= list.getSemestersByYearAndSemester().size(); i++) {
+				
+				R= ", ";
+				R+= Integer.toString(i);
+				R+= ", ";
+				R+= Integer.toString(list.getNumCourseInNthSemester(i));
+				output.add(L+ R);
+				
+			}
+			
+		}
+		
+		return output; // do not forget to return a proper variable.
 	}
 }
