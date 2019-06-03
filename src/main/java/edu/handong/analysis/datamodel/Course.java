@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.apache.commons.csv.CSVRecord;
+
 public class Course {
 	private String studentId;
 	private String yearMonthGraduated;
@@ -18,17 +20,17 @@ public class Course {
 	
 	
 	
-	public Course(String line) {
+	public Course(CSVRecord data) {
 		
-		this.studentId= line.split(",")[0].trim();
-		this.yearMonthGraduated= line.split(",")[1].trim();
-		this.firstMajor= line.split(",")[2].trim();
-		this.secondMajor= line.split(",")[3].trim();
-		this.courseCode= line.split(",")[4].trim();
-		this.courseName= line.split(",")[5].trim();
-		this.courseCredit= line.split(",")[6].trim();
-		this.yearTaken= Integer.parseInt(line.split(",")[7].trim());
-		this.semesterTaken= Integer.parseInt(line.split(",")[8].trim());
+		this.studentId= data.get(0).trim();
+		this.yearMonthGraduated= data.get(1).trim();
+		this.firstMajor= data.get(2).trim();
+		this.secondMajor= data.get(3).trim();		
+		this.courseCode= data.get(4).trim();
+		this.courseName= data.get(5).trim();
+		this.courseCredit= data.get(6).trim();
+		this.yearTaken= Integer.parseInt(data.get(7).trim());
+		this.semesterTaken= Integer.parseInt(data.get(8).trim());
 			
 	}	
 	
@@ -40,6 +42,16 @@ public class Course {
 		String yearAndSemester= Integer.toString(yearTaken)+ "-"+ Integer.toString(semesterTaken);
 		
 		return yearAndSemester;
+	}
+	
+	public String getCourseCode() {
+		
+		return this.courseCode;
+		
+	}
+	
+	public String getCourseName() {
+		return this.courseName;
 	}
 
 	

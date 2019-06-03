@@ -18,18 +18,14 @@ public class Student {
 	public void addCourse(Course newRecord) {
 		coursesTaken.add(newRecord);
 		
-		
 	}
 	
-	public HashMap<String, Integer> getSemestersByYearAndSemester(){
+	public HashMap<String, Integer> getSemestersByYearAndSemester(){	
 		
-		
-		if(semestersByYearAndSemester.containsKey(coursesTaken.get(0).getYearAndSemester())!= true) {
+		if(!(semestersByYearAndSemester.containsKey(coursesTaken.get(0).getYearAndSemester()))) {
 			semestersByYearAndSemester.put(coursesTaken.get(0).getYearAndSemester(), semestersByYearAndSemester.size()+ 1);
 			
 		}
-		
-		
 		
 		return semestersByYearAndSemester;
 	}
@@ -61,4 +57,41 @@ public class Student {
 	public String getStudentId() {
 		return this.studentId;
 	}
+	
+	public boolean haveYear(String yearAndSemester) {
+		
+		for(Course course: coursesTaken) {
+			if(course.getYearAndSemester().equals(yearAndSemester)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean haveCourse(String yearAndSemester, String courseCode) {
+		
+		for(Course course: coursesTaken) {
+			if(course.getYearAndSemester().equals(yearAndSemester)) {
+				if(course.getCourseCode().equals(courseCode)) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	public String getCourseName(String courseCode) {
+		
+		for(Course course: coursesTaken) {
+			if(course.getCourseName().equals(courseCode)) {
+				return course.getCourseName();
+			}
+		}
+	return null;
+	}
+	
+	
+	
 }

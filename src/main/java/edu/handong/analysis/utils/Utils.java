@@ -8,25 +8,24 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+
 public class Utils {
 	
-	public static ArrayList<String> getLines (String file, boolean removeHeader) {
+	public static ArrayList<CSVRecord> getLines (String file, boolean removeHeader) {
 	
-		ArrayList<String> line= new ArrayList<String>();
+		ArrayList<CSVRecord> lines= new ArrayList<CSVRecord>();
 		File objectFile= new File(file);
 		
 		try {
-			FileReader fileReader= new FileReader(objectFile);
-			BufferedReader bufferedReader= new BufferedReader(fileReader);
-			String data= null;
 			
-			while((data= bufferedReader.readLine())!= null) {
-				line.add(data);
-			}if(removeHeader= true) {
-				line.remove(0);
+			CSVParser parser= new CSVParser(new FileReader(objectFile), CSVFormat.DEFAULT.withHeader());
+			
+			for(CSVRecord line: parser) {
+				lines.add(line);				
 			}
-			
-			bufferedReader.close();
 		}catch(FileNotFoundException e) {
 			System.out.println("There is no file. ");
 			System.exit(0);
@@ -35,7 +34,7 @@ public class Utils {
 			System.exit(0);
 		}
 		
-		return line;
+		return lines;
 	}
 	
 	public static void writeAFile(ArrayList<String> lines, String targetFileName) {
